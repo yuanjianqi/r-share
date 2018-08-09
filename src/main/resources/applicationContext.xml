@@ -36,6 +36,7 @@
         <property name="packagesToScan">
             <list>
                 <value>com.yuan.iliya.rshare.user.entity</value>
+                <value>com.yuan.iliya.rshare.information.entity</value>
             </list>
         </property>
 
@@ -51,10 +52,10 @@
     <tx:advice transaction-manager="transactionManager" id="txAdvie">
 
         <tx:attributes>
-            <tx:method name="get*" read-only="true"/>
-            <tx:method name="finf*" read-only="true"/>
-            <tx:method name="list*" read-only="true"/>
-            <tx:method name="*" rollback-for="Throwable"/>
+            <tx:method name="get*" read-only="true" propagation="NOT_SUPPORTED" />
+            <tx:method name="find*" read-only="true" propagation="NOT_SUPPORTED"/>
+            <tx:method name="list*" read-only="true" propagation="NOT_SUPPORTED"/>
+            <tx:method name="*" rollback-for="Throwable" propagation="REQUIRED"/>
         </tx:attributes>
     </tx:advice>
 

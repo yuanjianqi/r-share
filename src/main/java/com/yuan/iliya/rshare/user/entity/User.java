@@ -1,10 +1,16 @@
 package com.yuan.iliya.rshare.user.entity;
 
+import com.yuan.iliya.rshare.information.entity.Information;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
@@ -17,7 +23,8 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "tb_user")
-@DynamicInsert
+@DynamicInsert(true)
+@DynamicUpdate(true)
 public class User implements Serializable {
 
     /**
@@ -45,11 +52,24 @@ public class User implements Serializable {
     /**
      * 用户信誉值
      */
-    private Integer credibility;
+    private Integer credibility = 100;
     /**
      * 用户联系方式
      */
-    private Contract contract;
+    private Contact contact;
+    /**
+     * 用户收藏的信息
+     */
+    private Set<Information> informations = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,targetEntity = Information.class,orphanRemoval = true)
+    public Set<Information> getInformations() {
+        return informations;
+    }
+
+    public void setInformations(Set<Information> informations) {
+        this.informations = informations;
+    }
 
     /**
      * 测试用方法
@@ -64,9 +84,13 @@ public class User implements Serializable {
                 ", studentNumber='" + studentNumber + '\'' +
                 ", location=" + location +
                 ", credibility=" + credibility +
-                ", contract=" + contract +
+                ", contact=" + contact +
+                ", informations=" + informations +
                 '}';
     }
+
+
+
 
     @Id
     @GenericGenerator(strategy = "uuid",name = "user_uuid")
@@ -126,11 +150,11 @@ public class User implements Serializable {
     }
 
     @Embedded
-    public Contract getContract() {
-        return contract;
+    public Contact getContact() {
+        return contact;
     }
 
-    public void setContract(Contract contract) {
-        this.contract = contract;
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 }

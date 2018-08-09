@@ -19,7 +19,7 @@ public class Location implements Serializable {
     /**
      * 所在学校  默认重庆大学
      */
-    private String university;
+    private String university = "重庆大学";
     /**
      * 所在学院
      */
@@ -33,7 +33,7 @@ public class Location implements Serializable {
      */
     private String domitory;
 
-    @Column(name = "user_university",columnDefinition = "varchar(20) default '重庆大学'")
+    @Column(name = "user_university",columnDefinition = "varchar(20) default '重庆大学'",nullable = true)
     public String getUniversity() {
         return university;
     }

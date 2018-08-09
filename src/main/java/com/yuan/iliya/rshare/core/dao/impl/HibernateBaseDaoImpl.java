@@ -45,6 +45,7 @@ public class HibernateBaseDaoImpl<T> implements BaseDao<T> {
     public void save(T t) {
         Session session = HibernateUtil.getCurrentSession(sessionFactory);
         session.save(t);
+        session.flush();
 
     }
 
@@ -52,12 +53,14 @@ public class HibernateBaseDaoImpl<T> implements BaseDao<T> {
     public void update(T t) {
         Session session = HibernateUtil.getCurrentSession(sessionFactory);
         session.update(t);
+        session.flush();
     }
 
     @Override
     public void delete(Serializable id) {
         Session session = HibernateUtil.getCurrentSession(sessionFactory);
         session.delete(findObjectById(id));
+        session.flush();
     }
 
     @Override

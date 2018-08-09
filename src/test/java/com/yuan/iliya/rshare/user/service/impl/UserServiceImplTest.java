@@ -1,6 +1,7 @@
 package com.yuan.iliya.rshare.user.service.impl;
 
-import com.yuan.iliya.rshare.user.entity.Contract;
+import com.yuan.iliya.rshare.information.entity.Information;
+import com.yuan.iliya.rshare.user.entity.Contact;
 import com.yuan.iliya.rshare.user.entity.Location;
 import com.yuan.iliya.rshare.user.entity.User;
 import com.yuan.iliya.rshare.user.service.UserService;
@@ -10,9 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDate;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
@@ -43,11 +43,19 @@ public class UserServiceImplTest {
         location.setSpecialty("电子科学与技术");
         user.setLocation(location);
 
-        Contract contract = new Contract();
-        contract.setEmail("1849964931@qq.com");
-        contract.setMobile("15182542484");
-        contract.setQqNumber("1849964931");
-        user.setContract(contract);
+        Contact contact = new Contact();
+        contact.setEmail("1849964931@qq.com");
+        contact.setMobile("15182542484");
+        contact.setQqNumber("1849964931");
+        user.setContact(contact);
+
+        Information information = new Information();
+        information.setClassify("游戏");
+        information.setDate(LocalDate.now());
+        information.setPublicity(28176);
+        information.setImgUrl("http://...");
+        information.setTitle("老人与海");
+        user.getInformations().add(information);
         userService.save(user);
 
     }
@@ -63,6 +71,7 @@ public class UserServiceImplTest {
 
     @Test
     public void delete() {
+        userService.delete("40283681651dd5c201651dd5c5260000");
     }
 
     @Test
