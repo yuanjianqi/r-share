@@ -4,7 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
@@ -34,7 +34,7 @@ public class Information implements Serializable {
     /**
      * 信息发布日期
      */
-    private LocalDate date;
+    private Date date;
     /**
      * 信息热度
      */
@@ -76,12 +76,13 @@ public class Information implements Serializable {
     }
 
 
-    @Column(name = "info_date",length = 10)
-    public LocalDate getDate() {
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "info_date",length = 20)
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -94,7 +95,7 @@ public class Information implements Serializable {
         this.publicity = publicity;
     }
 
-    @Column(name = "info_image_url",length = 100)
+    @Column(name = "info_image_url",length = 400)
     public String getImgUrl() {
         return imgUrl;
     }

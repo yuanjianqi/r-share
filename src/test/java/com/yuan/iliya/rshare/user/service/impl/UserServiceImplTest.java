@@ -1,9 +1,11 @@
 package com.yuan.iliya.rshare.user.service.impl;
 
 import com.yuan.iliya.rshare.information.entity.Information;
+import com.yuan.iliya.rshare.information.service.InformationService;
 import com.yuan.iliya.rshare.user.entity.Contact;
 import com.yuan.iliya.rshare.user.entity.Location;
 import com.yuan.iliya.rshare.user.entity.User;
+import com.yuan.iliya.rshare.user.entity.UserInformations;
 import com.yuan.iliya.rshare.user.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Date;
 
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
@@ -29,6 +30,8 @@ public class UserServiceImplTest {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private InformationService informationService;
     @Test
     public void save() {
         User user = new User();
@@ -51,36 +54,41 @@ public class UserServiceImplTest {
 
         Information information = new Information();
         information.setClassify("游戏");
-        information.setDate(LocalDate.now());
+        information.setDate(new Date());
         information.setPublicity(28176);
         information.setImgUrl("http://...");
         information.setTitle("老人与海");
-        user.getInformations().add(information);
+
+        informationService.save(information);
+
+        UserInformations userInformations = new UserInformations(user,information);
+        user.getInformations().add(userInformations);
+        System.out.println(userService);
         userService.save(user);
 
     }
 
-    @Test
-    public void update() {
-        User user = userService.findUserById("402836816513cdbf016513cdc33b0000");
-        user.setUsername("赵明");
-        userService.update(user);
+//    @Test
+//    public void update() {
+//        User user = userService.findUserById("402836816513cdbf016513cdc33b0000");
+//        user.setUsername("赵明");
+//        userService.update(user);
+//
+//
+//    }
 
-
-    }
-
-    @Test
-    public void delete() {
-        userService.delete("40283681651dd5c201651dd5c5260000");
-    }
+//    @Test
+//    public void delete() {
+//        userService.delete("40283681651dd5c201651dd5c5260000");
+//    }
 
     @Test
     public void findUserById() {
     }
 
-    @Test
-    public void findUsers() {
-        List<User> users = userService.findUsers();
-        System.out.println(users);
-    }
+//    @Test
+//    public void findUsers() {
+//        List<User> users = userService.findUsers();
+//        System.out.println(users);
+//    }
 }

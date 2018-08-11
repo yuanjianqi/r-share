@@ -5,6 +5,7 @@ import com.yuan.iliya.rshare.information.dao.InformationDao;
 import com.yuan.iliya.rshare.information.entity.Information;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,6 +23,26 @@ import java.util.List;
 public class InformationServiceImpl implements InformationService {
     @Autowired
     private InformationDao informationDao;
+
+    @Override
+    public List<Information> findInformationByIndexAndSize(String title, Integer index, Integer size) {
+        if (index == null){
+            index = 0;
+        }
+        if (size == null){
+            size = Integer.MAX_VALUE;
+        }
+        if (StringUtils.isEmpty(title)){
+            if (index < 0 || size <= 0){
+                return null;
+            }
+            return informationDao.findObjectsByIndexAndSize(index,size);
+        }
+
+
+
+        return informationDao.findInformationsByTitle(title, index, size);
+    }
 
     @Override
     public void save(Information information) {

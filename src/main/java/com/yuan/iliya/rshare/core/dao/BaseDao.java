@@ -40,7 +40,15 @@ public interface BaseDao<T> {
 
     /**
      * 查询数据库中的所有实体
-     * @return
+     * @return 所有实体
      */
     public List<T> findObjects();
+
+    /**
+     * 分页操作
+     * @param index
+     * @param size
+     * @return
+     */
+    public List<T> findObjectsByIndexAndSize(Integer index,Integer size);
 }

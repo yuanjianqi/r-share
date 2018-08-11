@@ -60,14 +60,14 @@ public class User implements Serializable {
     /**
      * 用户收藏的信息
      */
-    private Set<Information> informations = new HashSet<>();
+    private Set<UserInformations> informations = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,targetEntity = Information.class,orphanRemoval = true)
-    public Set<Information> getInformations() {
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    public Set<UserInformations> getInformations() {
         return informations;
     }
 
-    public void setInformations(Set<Information> informations) {
+    public void setInformations(Set<UserInformations> informations) {
         this.informations = informations;
     }
 

@@ -45,4 +45,10 @@ public interface InformationService {
      * @return 所有信息
      */
     public List<Information> findInformations();
+
+    /**
+     * 分页查询和模糊查询
+     * @return
+     */
+    public List<Information> findInformationByIndexAndSize(String title, Integer index, Integer size);
 }

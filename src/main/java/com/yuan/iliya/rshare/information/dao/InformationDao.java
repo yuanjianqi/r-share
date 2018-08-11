@@ -3,6 +3,8 @@ package com.yuan.iliya.rshare.information.dao;
 import com.yuan.iliya.rshare.core.dao.BaseDao;
 import com.yuan.iliya.rshare.information.entity.Information;
 
+import java.util.List;
+
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
  * Copyright ©2018
@@ -13,4 +15,13 @@ import com.yuan.iliya.rshare.information.entity.Information;
  * @since 1.8
  */
 public interface InformationDao extends BaseDao<Information> {
+
+    /**
+     * 模糊查询和分页
+     * @param title
+     * @param index
+     * @param size
+     * @return
+     */
+    public List<Information> findInformationsByTitle(String title,Integer index,Integer size);
 }

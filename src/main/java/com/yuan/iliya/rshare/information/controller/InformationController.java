@@ -34,7 +34,7 @@ public class InformationController {
     }
 
     /**
-     * 添加用户
+     * 添加信息
      * @param information information的json
      * @return 状态数据
      */
@@ -108,6 +108,19 @@ public class InformationController {
         List<Information> informations = informationService.findInformations();
         return informations;
     }
+
+    /**
+     *
+     * @return
+     */
+    @GetMapping("/informations-title")
+    @ResponseBody
+    public List<Information> getInformationByTitleAndIndexAndSize(@RequestParam(value = "title",required = false) String title,@RequestParam(value = "index",required = false)Integer index,@RequestParam(value = "size",required = false)Integer size){
+        return informationService.findInformationByIndexAndSize(title, index, size);
+    }
+
+
+
 
 
 }

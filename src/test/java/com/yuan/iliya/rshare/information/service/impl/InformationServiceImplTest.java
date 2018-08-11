@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
@@ -30,7 +30,7 @@ public class InformationServiceImplTest {
 
         Information information = new Information();
         information.setClassify("游戏");
-        information.setDate(LocalDate.now());
+        information.setDate(new Date());
         information.setPublicity(28176);
         information.setImgUrl("http://...");
         information.setTitle("老人与海");

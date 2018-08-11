@@ -23,7 +23,7 @@ import java.util.List;
 
 public class HibernateBaseDaoImpl<T> implements BaseDao<T> {
 
-    private Class<?> clazz;
+    protected Class<?> clazz;
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -72,6 +72,14 @@ public class HibernateBaseDaoImpl<T> implements BaseDao<T> {
     @Override
     public List<T> findObjects() {
         Query<T> query = HibernateUtil.getCurrentSession(sessionFactory).createQuery("from  " + clazz.getSimpleName());
+        return query.getResultList();
+    }
+
+    @Override
+    public List<T> findObjectsByIndexAndSize(Integer index, Integer size) {
+        Query<T> query = HibernateUtil.getCurrentSession(sessionFactory).createQuery("from  " + clazz.getSimpleName());
+        query.setFirstResult(index);
+        query.setMaxResults(size);
         return query.getResultList();
     }
 }
