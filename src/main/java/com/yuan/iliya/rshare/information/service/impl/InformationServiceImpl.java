@@ -1,13 +1,14 @@
 package com.yuan.iliya.rshare.information.service.impl;
 
-import com.yuan.iliya.rshare.information.service.InformationService;
 import com.yuan.iliya.rshare.information.dao.InformationDao;
 import com.yuan.iliya.rshare.information.entity.Information;
+import com.yuan.iliya.rshare.information.service.InformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -67,6 +68,21 @@ public class InformationServiceImpl implements InformationService {
 
     @Override
     public List<Information> findInformations() {
-        return informationDao.findObjects();
+        List<Information> informationList = informationDao.findObjects();
+        Collections.sort(informationList,(information1,information2) -> {
+            if (information1.getPublicity() > information2.getPublicity()){
+                return -1;
+            }else if (information1.getPublicity().equals(information2.getPublicity())){
+                return 0;
+            }else {
+                return 1;
+            }
+        });
+        return informationList;
+    }
+
+    @Override
+    public List<Information> findAdviceInformationsByPublictity(Integer size) {
+        return informationDao.findAdviceInformationsByPublictity(size);
     }
 }

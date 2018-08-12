@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -78,18 +79,35 @@ public class UserServiceImpl implements UserService {
 
         User user = userDao.findObjectById(id);
         Set<UserInformations> informations = user.getInformations();
+
         if (size <= 0 || index >=  informations.size() || index < 0){
             return null;
         }
         List<Information> informationList = new ArrayList<>();
-        int i = 0;
+
         for (UserInformations userInformations: informations){
-            if (i >= index && i <= index + size){
-                informationList.add(userInformations.getInformation());
+            informationList.add(userInformations.getInformation());
+
+        }
+        Collections.sort(informationList,(information1,information2) -> {
+            if (information1.getPublicity() > information2.getPublicity()){
+                return 1;
+            }else if (information1.getPublicity() == information2.getPublicity()){
+                return 0;
+            }else {
+                return -1;
+            }
+        });
+        int i = 0;
+
+        List<Information> returnInformations = new ArrayList<>();
+        for (Information information:informationList){
+            if (i >= index && i < index + size){
+                returnInformations.add(information);
             }
             i++;
         }
-        return informationList;
+        return returnInformations;
     }
 
     @Override

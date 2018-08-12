@@ -45,6 +45,20 @@ public class Information implements Serializable {
      */
     private String imgUrl;
 
+    /**
+     * 信息内容
+     */
+    private String infomationBody;
+
+    @Column(name = "info_body",length = 1200)
+    public String getInfomationBody() {
+        return infomationBody;
+    }
+
+    public void setInfomationBody(String infomationBody) {
+        this.infomationBody = infomationBody;
+    }
+
     @Id
     @GenericGenerator(strategy = "uuid",name = "information_uuid")
     @GeneratedValue(generator = "information_uuid")

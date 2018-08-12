@@ -4,6 +4,7 @@ import com.yuan.iliya.rshare.core.dao.impl.HibernateBaseDaoImpl;
 import com.yuan.iliya.rshare.core.util.HibernateUtil;
 import com.yuan.iliya.rshare.information.dao.InformationDao;
 import com.yuan.iliya.rshare.information.entity.Information;
+import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +29,20 @@ public class InformationDaoImpl extends HibernateBaseDaoImpl<Information> implem
         query.setParameter("title",title);
         query.setFirstResult(index);
         query.setMaxResults(size);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Information> findAdviceInformationsByPublictity(Integer size) {
+        if (size == null || size == 0){
+            size = 4;
+        }
+
+        Session session = HibernateUtil.getCurrentSession(getSessionFactory());
+        Query<Information> query = session.createQuery("from Information order by publicity desc ");
+        query.setFirstResult(0);
+        query.setMaxResults(size);
+
         return query.getResultList();
     }
 }

@@ -1,5 +1,6 @@
 package com.yuan.iliya.rshare.user.service.impl;
 
+import com.yuan.iliya.rshare.core.constant.InformationType;
 import com.yuan.iliya.rshare.information.entity.Information;
 import com.yuan.iliya.rshare.information.service.InformationService;
 import com.yuan.iliya.rshare.user.entity.Contact;
@@ -53,11 +54,12 @@ public class UserServiceImplTest {
         user.setContact(contact);
 
         Information information = new Information();
-        information.setClassify("游戏");
+        information.setClassify(InformationType.ADVICE_INFORMATION);
         information.setDate(new Date());
         information.setPublicity(28176);
         information.setImgUrl("http://...");
         information.setTitle("老人与海");
+        information.setInfomationBody("我操真的傻逼");
 
         informationService.save(information);
 

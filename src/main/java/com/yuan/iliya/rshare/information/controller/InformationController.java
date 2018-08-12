@@ -119,6 +119,12 @@ public class InformationController {
         return informationService.findInformationByIndexAndSize(title, index, size);
     }
 
+    @GetMapping("/informations/advices")
+    @ResponseBody
+    public List<Information> getAdviceInformationByPublictity(@RequestParam(value = "size",required = false)Integer size){
+        return informationService.findAdviceInformationsByPublictity(size);
+    }
+
 
 
 

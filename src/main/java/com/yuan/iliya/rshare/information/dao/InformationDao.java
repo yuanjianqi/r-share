@@ -24,4 +24,11 @@ public interface InformationDao extends BaseDao<Information> {
      * @return
      */
     public List<Information> findInformationsByTitle(String title,Integer index,Integer size);
+
+    /**
+     * 根据热度查找最热门的通知
+     * @param size
+     * @return
+     */
+    public List<Information> findAdviceInformationsByPublictity(Integer size);
 }
