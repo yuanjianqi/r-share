@@ -69,7 +69,6 @@ public class UserController {
     @GetMapping("/user/{id}/informations")
     @ResponseBody
     public List<Information> getUserInformations(@PathVariable("id") String id){
-
         return userService.getUserInformations(id);
     }
 
@@ -82,9 +81,7 @@ public class UserController {
      */
     @GetMapping("/user/{id}/informations/{index}")
     @ResponseBody
-    public List<Information> getUserInformationsByIndex(@PathVariable("id") String id,@PathVariable("index") Integer index,@RequestParam(value = "size",required = false) Integer size){
-
-        System.out.println(size);
+    public List<Information> getUserInformationsByIndex(@PathVariable("id") String id,@PathVariable(value = "index",required = false) Integer index,@RequestParam(value = "size",required = false) Integer size){
         return userService.getUserInformationsByIndex(id,index,size);
     }
 

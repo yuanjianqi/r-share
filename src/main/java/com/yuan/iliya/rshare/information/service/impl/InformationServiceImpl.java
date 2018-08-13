@@ -26,6 +26,11 @@ public class InformationServiceImpl implements InformationService {
     private InformationDao informationDao;
 
     @Override
+    public List<Information> findInformationsByClassify(String classify) {
+        return informationDao.findInformationsByClassify(classify);
+    }
+
+    @Override
     public List<Information> findInformationByIndexAndSize(String title, Integer index, Integer size) {
         if (index == null){
             index = 0;

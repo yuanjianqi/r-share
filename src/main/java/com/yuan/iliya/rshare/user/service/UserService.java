@@ -84,4 +84,6 @@ public interface UserService {
      * @param informationId
      */
     public void addUserInformations(String userId, String informationId);
+
+
 }

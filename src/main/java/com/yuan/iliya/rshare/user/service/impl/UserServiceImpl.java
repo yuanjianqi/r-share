@@ -3,16 +3,12 @@ package com.yuan.iliya.rshare.user.service.impl;
 import com.yuan.iliya.rshare.information.entity.Information;
 import com.yuan.iliya.rshare.user.dao.UserDao;
 import com.yuan.iliya.rshare.user.entity.User;
-import com.yuan.iliya.rshare.user.entity.UserInformations;
 import com.yuan.iliya.rshare.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
@@ -31,18 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUserInformations(String userId, String informationId) {
-        UserInformations userInformations = new UserInformations();
-        User user = new User();
-        user.setId(userId);
-        Information information = new Information();
-        information.setId(informationId);
-        userInformations.setUser(user);
-        userInformations.setInformation(information);
-
-
-        User user1 = userDao.findObjectById(userId);
-        user1.getInformations().add(userInformations);
-        userDao.update(user1);
+        userDao.addUserInformations(userId,informationId);
     }
 
     @Override
@@ -65,49 +50,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Information> getUserInformations(Serializable id) {
-        User user = userDao.findObjectById(id);
-        Set<UserInformations> informations = user.getInformations();
-        List<Information> informationList = new ArrayList<>();
-        for (UserInformations userInformations: informations){
-            informationList.add(userInformations.getInformation());
-        }
-        return informationList;
+        return userDao.getUserInformationsById(id);
     }
 
     @Override
     public List<Information> getUserInformationsByIndex(String id, Integer index, Integer size) {
-
-        User user = userDao.findObjectById(id);
-        Set<UserInformations> informations = user.getInformations();
-
-        if (size <= 0 || index >=  informations.size() || index < 0){
-            return null;
-        }
-        List<Information> informationList = new ArrayList<>();
-
-        for (UserInformations userInformations: informations){
-            informationList.add(userInformations.getInformation());
-
-        }
-        Collections.sort(informationList,(information1,information2) -> {
-            if (information1.getPublicity() > information2.getPublicity()){
-                return 1;
-            }else if (information1.getPublicity() == information2.getPublicity()){
-                return 0;
-            }else {
-                return -1;
-            }
-        });
-        int i = 0;
-
-        List<Information> returnInformations = new ArrayList<>();
-        for (Information information:informationList){
-            if (i >= index && i < index + size){
-                returnInformations.add(information);
-            }
-            i++;
-        }
-        return returnInformations;
+        return userDao.getUserInformationsByIndex(id,index,size);
     }
 
     @Override

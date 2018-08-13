@@ -31,4 +31,11 @@ public interface InformationDao extends BaseDao<Information> {
      * @return
      */
     public List<Information> findAdviceInformationsByPublictity(Integer size);
+
+    /**
+     * 根据类别查询发布的信息
+     * @param classify 类别名，必须是四个类别名中的一个
+     * @return 信息
+     */
+    public List<Information> findInformationsByClassify(String classify);
 }

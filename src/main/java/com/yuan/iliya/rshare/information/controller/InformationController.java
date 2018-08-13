@@ -25,6 +25,11 @@ public class InformationController {
     @Autowired
     private InformationService informationService;
 
+    /**
+     * 获得指定id的信息
+     * @param id 信息id
+     * @return 信息
+     */
     @GetMapping("/information/{id}")
     @ResponseBody
     public Information getInformationById(@PathVariable("id")String id){
@@ -78,7 +83,7 @@ public class InformationController {
     }
 
     /**
-     * 删除用户信息
+     * 删除对应id用户信息
      * @param id 用户id
      * @return 状态码
      */
@@ -110,7 +115,12 @@ public class InformationController {
     }
 
     /**
-     *
+     * 根据用户搜索的信息名选择信息
+     * 并进行了分页处理
+     * 需要请求参数
+     * title 信息标题名，模糊查询 可选
+     * index 需要的信息在所有信息里面的index 可选 默认是0
+     * size 一次需要多少条信息 可选 默认是最大值
      * @return
      */
     @GetMapping("/informations-title")
@@ -119,10 +129,32 @@ public class InformationController {
         return informationService.findInformationByIndexAndSize(title, index, size);
     }
 
+    /**
+     * 获得swipper的信息
+     * 需要请求参数
+     * size 可选
+     * 默认值是4
+     * @param size
+     * @return
+     */
     @GetMapping("/informations/advices")
     @ResponseBody
     public List<Information> getAdviceInformationByPublictity(@RequestParam(value = "size",required = false)Integer size){
         return informationService.findAdviceInformationsByPublictity(size);
+    }
+
+    /**
+     * 根据类别查询发布的信息
+     * 需要请求参数
+     * classify，必选
+     * @param classify 类别名，必须是四个类别名中的一个
+     * @return 信息
+     */
+    @GetMapping("/informations/classify")
+    @ResponseBody
+    public List<Information> getInformationsByClassify(@RequestParam("classify")String classify){
+        return informationService.findInformationsByClassify(classify);
+
     }
 
 
