@@ -48,16 +48,31 @@ public class Information implements Serializable {
     /**
      * 信息内容
      */
-    private String infomationBody;
+    private String informationBody;
+
+    /**
+     * 信息的详细类别
+     */
+    private String detailClassify;
+
+    @Column(name = "info_detail_classify",length = 6)
+    public String getDetailClassify() {
+        return detailClassify;
+    }
+
+    public void setDetailClassify(String detailClassify) {
+        this.detailClassify = detailClassify;
+    }
 
     @Column(name = "info_body",length = 1200)
-    public String getInfomationBody() {
-        return infomationBody;
+    public String getInformationBody() {
+        return informationBody;
     }
 
-    public void setInfomationBody(String infomationBody) {
-        this.infomationBody = infomationBody;
+    public void setInformationBody(String informationBody) {
+        this.informationBody = informationBody;
     }
+
 
     @Id
     @GenericGenerator(strategy = "uuid",name = "information_uuid")

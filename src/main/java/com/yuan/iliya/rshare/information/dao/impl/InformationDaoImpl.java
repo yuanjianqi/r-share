@@ -24,9 +24,17 @@ import java.util.List;
 public class InformationDaoImpl extends HibernateBaseDaoImpl<Information> implements InformationDao {
 
     @Override
+    public List<Information> findObjectsByIndexAndSize(Integer index, Integer size) {
+        Query<Information> query = HibernateUtil.getCurrentSession(getSessionFactory()).createQuery("from  Information order by date desc ,publicity desc" );
+        query.setFirstResult(index);
+        query.setMaxResults(size);
+        return query.getResultList();
+    }
+
+    @Override
     public List<Information> findInformationsByTitle(String title, Integer index, Integer size) {
         title = "%" + title + "%";
-        Query<Information> query = HibernateUtil.getCurrentSession(getSessionFactory()).createQuery("from  Information"  + "  where  title like  :title order by date desc ,publicity desc ");
+        Query<Information> query = HibernateUtil.getCurrentSession(getSessionFactory()).createQuery("from  Information  where  title like  :title order by date desc ,publicity desc ");
         query.setParameter("title",title);
         query.setFirstResult(index);
         query.setMaxResults(size);
@@ -48,12 +56,21 @@ public class InformationDaoImpl extends HibernateBaseDaoImpl<Information> implem
     }
 
     @Override
-    public List<Information> findInformationsByClassify(String classify) {
+    public List<Information> findInformationsByClassify(String classify, String detailClassify,Integer index,Integer size) {
+
+        if (index == null){
+            index = 0;
+        }
+        if (size == null){
+            size = Integer.MAX_VALUE;
+        }
 
         Session session = HibernateUtil.getCurrentSession(getSessionFactory());
-        Query<Information> query = session.createQuery("from Information where classify = :classify order by date desc ,publicity desc ");
+        Query<Information> query = session.createQuery("from Information where classify = :classify and detailClassify = :detailClassify order by date desc ,publicity desc ");
         query.setParameter("classify",classify);
-
+        query.setParameter("detailClassify",detailClassify);
+        query.setFirstResult(index);
+        query.setMaxResults(size);
         return query.getResultList();
     }
 

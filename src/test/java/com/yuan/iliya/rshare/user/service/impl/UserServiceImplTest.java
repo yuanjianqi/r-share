@@ -59,7 +59,7 @@ public class UserServiceImplTest {
         information.setPublicity(28176);
         information.setImgUrl("http://...");
         information.setTitle("老人与海");
-        information.setInfomationBody("我操真的傻逼");
+        information.setInformationBody("我操真的傻逼");
 
         informationService.save(information);
 

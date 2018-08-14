@@ -137,7 +137,7 @@ public class InformationController {
      * @param size
      * @return
      */
-    @GetMapping("/informations/advices")
+    @GetMapping("/informations/advice")
     @ResponseBody
     public List<Information> getAdviceInformationByPublictity(@RequestParam(value = "size",required = false)Integer size){
         return informationService.findAdviceInformationsByPublictity(size);
@@ -147,13 +147,16 @@ public class InformationController {
      * 根据类别查询发布的信息
      * 需要请求参数
      * classify，必选
+     * detailClassify 可选
+     * index 不想再说啥意思,可选
+     * size  同上
      * @param classify 类别名，必须是四个类别名中的一个
      * @return 信息
      */
     @GetMapping("/informations/classify")
     @ResponseBody
-    public List<Information> getInformationsByClassify(@RequestParam("classify")String classify){
-        return informationService.findInformationsByClassify(classify);
+    public List<Information> getInformationsByClassify(@RequestParam("classify")String classify,@RequestParam(value = "detailClassify",required = false)String detailClassify,@RequestParam(value = "index",required = false)Integer index,@RequestParam(value = "size",required = false)Integer size){
+        return informationService.findInformationsByClassify(classify,detailClassify,index,size);
 
     }
 
