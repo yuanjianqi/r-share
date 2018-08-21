@@ -29,11 +29,13 @@ public class InformationServiceImplTest {
     public void save() {
 
         Information information = new Information();
-        information.setClassify("游戏");
+        information.setClassify("讲座培训");
         information.setDate(new Date());
         information.setPublicity(28176);
-        information.setImgUrl("http://...");
+        information.getImgUrls().add("http:/ssdfsaf");
+        information.setDetailClassify("游戏");
         information.setTitle("老人与海");
+        information.setState(Information.INFORMATION_VALID);
 
         informationService.save(information);
 

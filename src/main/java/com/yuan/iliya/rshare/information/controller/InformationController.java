@@ -6,7 +6,9 @@ import com.yuan.iliya.rshare.information.service.InformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -41,16 +43,17 @@ public class InformationController {
     /**
      * 添加信息
      * @param information information的json
+     * @param userId 发布人id
      * @return 状态数据
      */
     @PostMapping("/information")
     @ResponseBody
-    public Status addInformation(@RequestBody(required = true) Information information){
+    public Status addInformation(@RequestBody(required = true) Information information, @RequestParam("userId")String userId){
         Status status = new Status();
         try {
-            informationService.save(information);
+            String informationId = informationService.save(information, userId);
             status.setStatus(Status.GOOD_STATUS);
-            status.setMessage("添加成功");
+            status.setMessage(informationId);
         } catch (Exception e) {
             status.setStatus(Status.BAD_STATUS);
             status.setMessage("添加失败"+ e.getMessage());
@@ -160,8 +163,26 @@ public class InformationController {
 
     }
 
+    @PostMapping("/upload-image/{id}")
+    @ResponseBody
+    public Status uploadImage(@RequestParam("image")MultipartFile[] images, HttpServletRequest request,@PathVariable("id")String id){
+        Status status = new Status();
+        String path = request.getServletContext().getRealPath("/upload/informationimage");
+        //判断file数组不能为空并且长度大于0
+        try {
+            if (images != null && images.length > 0){
+                    //保存文件
+                    informationService.saveImage(images,path,id);
 
-
+            }
+            status.setStatus(Status.GOOD_STATUS);
+            status.setMessage("保存成功");
+        } catch (Exception e) {
+            status.setStatus(Status.BAD_STATUS);
+            status.setMessage("保存失败"+ e.getMessage());
+        }
+        return status;
+    }
 
 
 }

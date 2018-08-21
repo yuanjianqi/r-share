@@ -12,7 +12,7 @@ package com.yuan.iliya.rshare.core.constant;
 public class InformationType {
 
     public static final String ADVICE_INFORMATION = "通知活动";
-    public static final String LECTURE_INFORMATION = "通知活动";
-    public static final String COMPETITION_INFORMATION = "竞赛组队";
-    public static final String VOLUNTEER_INFORMATION = "志愿服务";
+    public static final String LECTURE_INFORMATION = "讲座培训";
+    public static final String COMPETITION_INFORMATION = "竞赛服务";
+    public static final String VOLUNTEER_INFORMATION = "志愿者";
 }

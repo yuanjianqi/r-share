@@ -6,7 +6,6 @@ import com.yuan.iliya.rshare.information.service.InformationService;
 import com.yuan.iliya.rshare.user.entity.Contact;
 import com.yuan.iliya.rshare.user.entity.Location;
 import com.yuan.iliya.rshare.user.entity.User;
-import com.yuan.iliya.rshare.user.entity.UserInformations;
 import com.yuan.iliya.rshare.user.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,16 +56,16 @@ public class UserServiceImplTest {
         information.setClassify(InformationType.ADVICE_INFORMATION);
         information.setDate(new Date());
         information.setPublicity(28176);
-        information.setImgUrl("http://...");
+        information.getImgUrls().add("http://dflkjasklfj");
         information.setTitle("老人与海");
         information.setInformationBody("我操真的傻逼");
+        information.setState(Information.INFORMATION_VALID);
 
         informationService.save(information);
 
-        UserInformations userInformations = new UserInformations(user,information);
-        user.getInformations().add(userInformations);
-        System.out.println(userService);
+
         userService.save(user);
+        userService.addUserInformations(user.getId(),information.getId());
 
     }
 

@@ -48,7 +48,7 @@ public class UserDaoImpl extends HibernateBaseDaoImpl<User> implements UserDao {
     public List<Information> getUserInformationsById(Serializable id) {
 
         Session session = HibernateUtil.getCurrentSession(getSessionFactory());
-        Query query = session.createQuery("from UserInformations where user.id = :id order by information.date desc ,information.publicity desc ");
+        Query query = session.createQuery("from UserInformations where user.id = :id and information.state = :state order by information.date desc ,information.publicity desc ").setParameter("state",Information.INFORMATION_VALID);
         query.setParameter("id",id);
         List<UserInformations> list = query.getResultList();
         List<Information> informations = new ArrayList<>();
@@ -68,7 +68,7 @@ public class UserDaoImpl extends HibernateBaseDaoImpl<User> implements UserDao {
             size = Integer.MAX_VALUE;
         }
         Session session = HibernateUtil.getCurrentSession(getSessionFactory());
-        Query query = session.createQuery("from UserInformations where user.id = :id order by information.date desc ,information.publicity desc");
+        Query query = session.createQuery("from UserInformations where user.id = :id and information.state = :state order by information.date desc ,information.publicity desc").setParameter("state",Information.INFORMATION_VALID);
         query.setParameter("id",id);
         query.setFirstResult(index);
         query.setMaxResults(size);
@@ -84,11 +84,8 @@ public class UserDaoImpl extends HibernateBaseDaoImpl<User> implements UserDao {
     @Override
     public void addUserInformations(String userId, String informationId) {
         Session session = HibernateUtil.getCurrentSession(getSessionFactory());
-        User user = session.get(User.class,userId);
-        Information information = session.get(Information.class,informationId);
-        UserInformations userInformations = new UserInformations(user,information);
-        user.getInformations().add(userInformations);
-        session.update(user);
+        UserInformations userInformations = new UserInformations(new User(userId),new Information(informationId));
+        session.save(userInformations);
         session.flush();
     }
 }

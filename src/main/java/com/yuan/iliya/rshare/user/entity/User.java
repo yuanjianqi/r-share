@@ -1,16 +1,11 @@
 package com.yuan.iliya.rshare.user.entity;
 
-import com.yuan.iliya.rshare.information.entity.Information;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
@@ -57,18 +52,12 @@ public class User implements Serializable {
      * 用户联系方式
      */
     private Contact contact;
-    /**
-     * 用户收藏的信息
-     */
-    private Set<UserInformations> informations = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
-    public Set<UserInformations> getInformations() {
-        return informations;
+    public User() {
     }
 
-    public void setInformations(Set<UserInformations> informations) {
-        this.informations = informations;
+    public User(String id) {
+        this.id = id;
     }
 
     /**
@@ -85,7 +74,7 @@ public class User implements Serializable {
                 ", location=" + location +
                 ", credibility=" + credibility +
                 ", contact=" + contact +
-                ", informations=" + informations +
+                ", informations=" +
                 '}';
     }
 

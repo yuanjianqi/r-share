@@ -4,7 +4,9 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
@@ -41,9 +43,9 @@ public class Information implements Serializable {
     private Integer publicity;
 
     /**
-     * 信息头部banner的url
+     * 信息图片的url
      */
-    private String imgUrl;
+    private List<String> imgUrls = new ArrayList<>();
 
     /**
      * 信息内容
@@ -54,6 +56,20 @@ public class Information implements Serializable {
      * 信息的详细类别
      */
     private String detailClassify;
+
+    /**
+     * 信息是否审核通过
+     */
+    private Boolean state;
+
+    public static Boolean INFORMATION_VALID = true;
+    public static Boolean INFORMATION_INVALID = true;
+    public Information() {
+    }
+
+    public Information(String id) {
+        this.id = id;
+    }
 
     @Column(name = "info_detail_classify",length = 6)
     public String getDetailClassify() {
@@ -124,12 +140,21 @@ public class Information implements Serializable {
         this.publicity = publicity;
     }
 
-    @Column(name = "info_image_url",length = 400)
-    public String getImgUrl() {
-        return imgUrl;
+    @ElementCollection
+    public List<String> getImgUrls() {
+        return imgUrls;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setImgUrls(List<String> imgUrls) {
+        this.imgUrls = imgUrls;
+    }
+
+    @Column(name = "info_state",length = 1)
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
     }
 }

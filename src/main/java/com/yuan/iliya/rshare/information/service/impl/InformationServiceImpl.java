@@ -6,10 +6,14 @@ import com.yuan.iliya.rshare.information.service.InformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
@@ -24,6 +28,8 @@ import java.util.List;
 public class InformationServiceImpl implements InformationService {
     @Autowired
     private InformationDao informationDao;
+
+
 
     @Override
     public List<Information> findInformationsByClassify(String classify,String detailClassify,Integer index,Integer size) {
@@ -57,6 +63,11 @@ public class InformationServiceImpl implements InformationService {
     }
 
     @Override
+    public String save(Information information, String userId) {
+        return informationDao.save(information,userId);
+    }
+
+    @Override
     public void update(Information information) {
         informationDao.update(information);
     }
@@ -74,20 +85,29 @@ public class InformationServiceImpl implements InformationService {
     @Override
     public List<Information> findInformations() {
         List<Information> informationList = informationDao.findObjects();
-        Collections.sort(informationList,(information1,information2) -> {
-            if (information1.getPublicity() > information2.getPublicity()){
-                return -1;
-            }else if (information1.getPublicity().equals(information2.getPublicity())){
-                return 0;
-            }else {
-                return 1;
-            }
-        });
         return informationList;
     }
 
     @Override
     public List<Information> findAdviceInformationsByPublictity(Integer size) {
         return informationDao.findAdviceInformationsByPublictity(size);
+    }
+
+    @Override
+    public void saveImage(MultipartFile[] files, String path, String id) {
+        List<String> paths = new ArrayList<>();
+        String filePath = null;
+        String fileName = null;
+        try {
+            for (MultipartFile file : files){
+                fileName = UUID.randomUUID().toString().replaceAll("-","") + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+                filePath = path + File.separator + fileName;
+                file.transferTo(new File(filePath));
+                paths.add("/upload/informationimage/" + fileName);
+            }
+            informationDao.saveImage(paths,id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

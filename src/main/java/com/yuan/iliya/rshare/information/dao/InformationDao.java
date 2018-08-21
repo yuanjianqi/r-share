@@ -38,4 +38,19 @@ public interface InformationDao extends BaseDao<Information> {
      * @return 信息
      */
     public List<Information> findInformationsByClassify(String classify,String detailClassify,Integer index,Integer size);
+
+    /**
+     * 存储图片
+     *
+     * @param paths 文件保存路径
+     * @param id 信息id
+     */
+    public void saveImage(List<String> paths, String id);
+
+    /**
+     * 向数据库中存储指定的信息和发布人
+     * @param information 信息
+     */
+    public String save(Information information,String userId);
+
 }

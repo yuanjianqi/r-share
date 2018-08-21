@@ -56,8 +56,6 @@ public class UserController {
     @ResponseBody
     public User getUserById(@PathVariable String id){
         User user = userService.findUserById(id);
-        //清空用户中收藏的信息列表，避免一次传输数据量过大
-        user.getInformations().clear();
         return user;
     }
 
@@ -209,9 +207,6 @@ public class UserController {
     @ResponseBody
     public List<User> getUsers(){
         List<User> users = userService.findUsers();
-        for (User user:users){
-            user.getInformations().clear();
-        }
         return users;
     }
 

@@ -1,6 +1,7 @@
 package com.yuan.iliya.rshare.information.service;
 
 import com.yuan.iliya.rshare.information.entity.Information;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,6 +22,12 @@ public interface InformationService {
      * @param information 信息
      */
     public void save(Information information);
+
+    /**
+     * 向数据库中存储指定的信息和发布人
+     * @param information 信息
+     */
+    public String save(Information information,String userId);
 
     /**
      * 向数据库中更新指定信息
@@ -65,4 +72,12 @@ public interface InformationService {
      * @return 信息
      */
     public List<Information> findInformationsByClassify(String classify,String detailClassify,Integer index,Integer size);
+
+    /**
+     * 存储图片
+     * @param files 文件
+     * @param path 文件保存路径
+     * @param id 信息id
+     */
+    public void saveImage(MultipartFile[] files, String path,String id);
 }
