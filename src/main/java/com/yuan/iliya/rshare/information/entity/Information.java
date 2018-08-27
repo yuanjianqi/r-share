@@ -40,7 +40,7 @@ public class Information implements Serializable {
     /**
      * 信息热度
      */
-    private Integer publicity;
+    private Integer publicity = 0;
 
     /**
      * 信息图片的url
@@ -60,7 +60,7 @@ public class Information implements Serializable {
     /**
      * 信息是否审核通过
      */
-    private Boolean state;
+    private Boolean state = INFORMATION_INVALID;
 
     public static Boolean INFORMATION_VALID = true;
     public static Boolean INFORMATION_INVALID = true;
