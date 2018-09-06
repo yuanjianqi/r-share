@@ -2,12 +2,15 @@ package com.yuan.iliya.rshare.information.release.dao.impl;
 
 import com.yuan.iliya.rshare.core.dao.impl.HibernateBaseDaoImpl;
 import com.yuan.iliya.rshare.core.util.HibernateUtil;
+import com.yuan.iliya.rshare.information.dao.InformationDao;
 import com.yuan.iliya.rshare.information.entity.Information;
 import com.yuan.iliya.rshare.information.release.dao.InformationReleaseDao;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -21,6 +24,8 @@ import java.util.List;
  */
 @Repository("informationReleaseDao")
 public class InformationReleaseDaoImpl extends HibernateBaseDaoImpl<Information> implements InformationReleaseDao {
+    @Autowired
+    private InformationDao informationDao;
 
     @Override
     public List<Information> findInformationsByTitle(String title) {
@@ -39,5 +44,10 @@ public class InformationReleaseDaoImpl extends HibernateBaseDaoImpl<Information>
         Query query = session.createQuery("from Information where state = :state order by date desc ,publicity desc")
                 .setParameter("state",state);
         return query.getResultList();
+    }
+
+    @Override
+    public void delete(Serializable id) {
+        informationDao.delete(id);
     }
 }

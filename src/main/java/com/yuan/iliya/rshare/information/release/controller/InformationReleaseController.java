@@ -85,9 +85,9 @@ public class InformationReleaseController {
      * @param id id
      * @return 更新情况
      */
-    @RequestMapping(value = "/inforamtion/{id}",method = RequestMethod.PUT)
+    @PutMapping("/inforamtion/shenhe/{id}")
     @ResponseBody
-    public Status updateInformationByState(@RequestParam("state") Boolean state,@PathVariable("id") String id){
+    public Status updateInformationByState(@RequestParam(value = "state",defaultValue = "false") Boolean state,@PathVariable("id") String id){
         Status status = new Status();
         try {
             Information information = informationReleaseService.findInformationById(id);

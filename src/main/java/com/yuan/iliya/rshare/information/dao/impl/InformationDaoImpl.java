@@ -119,12 +119,17 @@ public class InformationDaoImpl extends HibernateBaseDaoImpl<Information> implem
         queryforUserInformation.setParameter("id",id);
         queryforUserInformation.executeUpdate();
 
+        Query queryForUserReleaseInformation = session.createQuery("delete from UserReleaseInformation where information.id = :id");
+        queryForUserReleaseInformation.setParameter("id",id);
+        queryForUserReleaseInformation.executeUpdate();
+
+        Query queryForImg = session.createNativeQuery("delete from information_imgurls where Information_info_id= :id");
+        queryForImg.setParameter("id",id);
+        queryForImg.executeUpdate();
         Query queryForInformation = session.createQuery("delete from Information where id = :id");
         queryForInformation.setParameter("id",id);
         queryForInformation.executeUpdate();
 
-        Query queryForUserReleaseInformation = session.createQuery("delete from UserReleaseInformation where information.id = :id");
-        queryForUserReleaseInformation.setParameter("id",id);
-        queryForUserReleaseInformation.executeUpdate();
+
     }
 }

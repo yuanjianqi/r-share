@@ -19,6 +19,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "tb_information")
+@SuppressWarnings("all")
 public class Information implements Serializable {
 
     /**
@@ -63,7 +64,7 @@ public class Information implements Serializable {
     private Boolean state = INFORMATION_INVALID;
 
     public static Boolean INFORMATION_VALID = true;
-    public static Boolean INFORMATION_INVALID = true;
+    public static Boolean INFORMATION_INVALID = false;
     public Information() {
     }
 
@@ -80,7 +81,7 @@ public class Information implements Serializable {
         this.detailClassify = detailClassify;
     }
 
-    @Column(name = "info_body",length = 1200)
+    @Column(name = "info_body",length = 65535)
     public String getInformationBody() {
         return informationBody;
     }
