@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "tb_information")
-@SuppressWarnings("all")
+//@SuppressWarnings("all")
 public class Information implements Serializable {
 
     /**
@@ -81,7 +81,7 @@ public class Information implements Serializable {
         this.detailClassify = detailClassify;
     }
 
-    @Column(name = "info_body",length = 65535)
+    @Column(name = "info_body",length = 10000)
     public String getInformationBody() {
         return informationBody;
     }

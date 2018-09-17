@@ -37,6 +37,7 @@
             <list>
                 <value>com.yuan.iliya.rshare.user.entity</value>
                 <value>com.yuan.iliya.rshare.information.entity</value>
+                <value>com.yuan.iliya.rshare.book.entity</value>
             </list>
         </property>
 
