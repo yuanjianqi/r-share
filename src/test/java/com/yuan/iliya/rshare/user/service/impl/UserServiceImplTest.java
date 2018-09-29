@@ -38,7 +38,7 @@ public class UserServiceImplTest {
         user.setUsername("李四光");
         user.setGender(true);
         user.setStudentNumber("20162611");
-        user.setCredibility(100);
+        user.setCredibility(10000L);
 
         Location location = new Location();
         location.setDomitory("A区9舍706");

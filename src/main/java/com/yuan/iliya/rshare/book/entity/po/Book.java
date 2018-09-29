@@ -32,14 +32,14 @@ public class Book implements Serializable {
     private String name;
 
     /**
-     * 书籍的旧价格
+     * 书籍的旧价格 * 100
      */
-    private Double oldPrice;
+    private Long oldPrice;
 
     /**
-     * 书籍的新价格
+     * 书籍的新价格 * 100
      */
-    private Double newPrice;
+    private Long newPrice;
 
     /**
      * 书籍的图片存放的url
@@ -140,20 +140,20 @@ public class Book implements Serializable {
     }
 
     @Column(name = "book_old_price")
-    public Double getOldPrice() {
+    public Long getOldPrice() {
         return oldPrice;
     }
 
-    public void setOldPrice(Double oldPrice) {
+    public void setOldPrice(Long oldPrice) {
         this.oldPrice = oldPrice;
     }
 
     @Formula("book_old_price * book_old / 10")
-    public Double getNewPrice() {
+    public Long getNewPrice() {
         return newPrice;
     }
 
-    public void setNewPrice(Double newPrice) {
+    public void setNewPrice(Long newPrice) {
         this.newPrice = newPrice;
     }
 

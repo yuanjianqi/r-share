@@ -76,7 +76,25 @@ public interface BookDao extends BaseDao<Book> {
      * @param book 书籍信息
      * @param userId 用户id
      */
-    public void saveBookAndUser(Book book,String userId);
+    public String saveBookAndUser(Book book,String userId);
 
+    /**
+     * 根据用户id查找分享的书籍
+     * @param userId 用户id
+     * @return 用户共享的书籍
+     */
     public List<Book> findBooksByUserId(String userId);
+
+    /**
+     * 根据id批量删除书籍
+     * @param bookIds 书籍id
+     */
+    public void deleteBookByIds(String[] bookIds);
+
+    /**
+     * 数据库中保存书籍的图片
+     * @param paths 书籍保存的路径
+     * @param id 书籍id
+     */
+    public void saveImage(List<String> paths, String id);
 }

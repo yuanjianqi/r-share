@@ -8,7 +8,9 @@ import com.yuan.iliya.rshare.core.entity.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -33,9 +35,9 @@ public class BookController {
         Status status = new Status();
 
         try {
-            bookService.save(book,userId);
+            String id = bookService.save(book, userId);
             status.setStatus("200");
-            status.setMessage("保存成功");
+            status.setMessage(id);
         }catch (Exception e){
             status.setStatus("500");
             status.setMessage("保存失败");
@@ -140,6 +142,67 @@ public class BookController {
     @GetMapping("/book/share/{id}")
     public List<BookRecommendVo> getUserShaerBooks(@PathVariable("id") String userId){
         return bookService.findBooksByUserId(userId);
+    }
+
+    /**
+     * 根据书籍id批量删除书籍
+     * @param bookIds
+     * @return
+     */
+    @DeleteMapping("/book")
+    public Status deleteBooksByIds(String[] bookIds){
+        Status status = new Status();
+
+        try {
+            bookService.deleteBookByIds(bookIds);
+            status.setStatus("200");
+            status.setMessage("删除成功");
+        }catch (Exception e){
+            status.setStatus("500");
+            status.setMessage("删除失败");
+        }
+        return status;
+    }
+
+    /**
+     * 上传书籍图片的接口
+     * 参数
+     * id 书籍id
+     * image 图片的上传参数
+     * @param images
+     * @param request
+     * @param id
+     * @return
+     */
+    @PostMapping("/book/upload-image/{id}")
+    @ResponseBody
+    public Status uploadImage(@RequestParam("image")MultipartFile[] images, HttpServletRequest request, @PathVariable("id")String id){
+        Status status = new Status();
+        String path = request.getServletContext().getRealPath("/upload/bookimage");
+        //判断file数组不能为空并且长度大于0
+        try {
+            if (images != null && images.length > 0){
+                //保存文件
+                bookService.saveImage(images,path,id);
+
+            }
+            status.setStatus(Status.GOOD_STATUS);
+            status.setMessage("保存成功");
+        } catch (Exception e) {
+            status.setStatus(Status.BAD_STATUS);
+            status.setMessage("保存失败"+ e.getMessage());
+        }
+        return status;
+    }
+
+    /**
+     * 获得更多推荐的书籍
+     * @param dto 查询条件
+     * @return 推荐的书籍
+     */
+    @GetMapping("/book/more")
+    public List<BookRecommendVo> getMoreRecomend(SearchBookDto dto){
+        return bookService.findBySearchBookDto(dto);
     }
 
 }

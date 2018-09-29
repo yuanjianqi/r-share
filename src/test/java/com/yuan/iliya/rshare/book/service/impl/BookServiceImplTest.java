@@ -12,8 +12,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
  * Copyright ©2018
@@ -41,7 +39,7 @@ public class BookServiceImplTest {
             book.setPublishTime(new Date());
             book.setPress("重庆大学出版社");
             book.setRemainNumber(10 + i);
-            book.setOldPrice(40.24 + i);
+            book.setOldPrice(4024L + i);
             book.setClassify(BookType.LIFE_AND_LEISURE);
             book.setDetail("一代大师旁白聚聚登顶之作");
             book.setOld((8 + i) % 10);
@@ -55,6 +53,12 @@ public class BookServiceImplTest {
 
     @Test
     public void delete() {
+        String[] bookIds = {
+                "4028e48165e63b460165e63b49910000",
+                "4028e48165e636af0165e636b6380000"
+        };
+
+        bookService.deleteBookByIds(bookIds);
     }
 
     @Test
@@ -68,4 +72,6 @@ public class BookServiceImplTest {
         List<Book> books = bookService.findBooks();
         System.out.println(books);
     }
+
+
 }

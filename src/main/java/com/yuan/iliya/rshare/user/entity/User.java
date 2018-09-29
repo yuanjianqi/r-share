@@ -47,7 +47,7 @@ public class User implements Serializable {
     /**
      * 用户信誉值
      */
-    private Integer credibility = 100;
+    private Long credibility = 10000L;
     /**
      * 用户联系方式
      */
@@ -130,11 +130,11 @@ public class User implements Serializable {
     }
 
     @Column(name = "user_credibility",length = 4)
-    public Integer getCredibility() {
+    public Long getCredibility() {
         return credibility;
     }
 
-    public void setCredibility(Integer credibility) {
+    public void setCredibility(Long credibility) {
         this.credibility = credibility;
     }
 

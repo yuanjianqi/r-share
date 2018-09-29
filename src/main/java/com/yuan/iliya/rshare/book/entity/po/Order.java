@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
@@ -23,31 +24,28 @@ public class Order implements Serializable {
      */
     private String orderId;
     /**
-     * 买的书id
+     * 买的书id和数量
      */
-    private Book book;
+    private List<ShoppingItem> books;
     /**
      * 买的人的id
      */
     private User user;
 
     /**
-     * 收货人姓名
+     * 购买者详细信息
      */
-    private String receiverName;
-    /**
-     * 收货人电话号码
-     */
-    private String mobileNumber;
-    /**
-     * 收货人地址
-     */
-    private String address;
+    private BuyerInformation buyerInformation;
 
     /**
      * 收货人留言
      */
-    private String message;
+    private String remark;
+
+    /**
+     * 总价格
+     */
+    private Long totalPrice;
 
 
     @Id
@@ -62,13 +60,13 @@ public class Order implements Serializable {
         this.orderId = orderId;
     }
 
-    @OneToOne
-    public Book getBook() {
-        return book;
+    @ElementCollection
+    public List<ShoppingItem> getBooks() {
+        return books;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBooks(List<ShoppingItem> books) {
+        this.books = books;
     }
 
     @ManyToOne
@@ -80,35 +78,30 @@ public class Order implements Serializable {
         this.user = user;
     }
 
-    public String getReceiverName() {
-        return receiverName;
+    @Embedded
+    public BuyerInformation getBuyerInformation() {
+        return buyerInformation;
     }
 
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
+    public void setBuyerInformation(BuyerInformation buyerInformation) {
+        this.buyerInformation = buyerInformation;
     }
 
-    public String getMobileNumber() {
-        return mobileNumber;
+    @Column(name = "order_remark")
+    public String getRemark() {
+        return remark;
     }
 
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
-    public String getAddress() {
-        return address;
+    @Column(name = "totalPrice")
+    public Long getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

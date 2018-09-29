@@ -8,6 +8,7 @@ import com.yuan.iliya.rshare.core.dao.impl.HibernateBaseDaoImpl;
 import com.yuan.iliya.rshare.core.util.HibernateUtil;
 import com.yuan.iliya.rshare.user.entity.User;
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -153,11 +154,12 @@ public class BookDaoImpl extends HibernateBaseDaoImpl<Book> implements BookDao {
      * @param userId 用户id
      */
     @Override
-    public void saveBookAndUser(Book book, String userId) {
+    public String saveBookAndUser(Book book, String userId) {
         Session session = HibernateUtil.getCurrentSession(getSessionFactory());
         Serializable id = session.save(book);
         UserShareBook userShareBook = new UserShareBook(new User(userId), new Book((String) id));
         session.save(userShareBook);
+        return (String) id;
     }
 
     @Override
@@ -170,5 +172,34 @@ public class BookDaoImpl extends HibernateBaseDaoImpl<Book> implements BookDao {
             books.add(shareBook.getBook());
         }
         return books;
+    }
+
+    @Override
+    public void deleteBookByIds(String[] bookIds) {
+        String sql = "delete from tb_book where book_id in(";
+
+        for (String id: bookIds){
+            sql += "'" + id +"'"  + ",";
+        }
+
+        sql = sql.substring(0,sql.lastIndexOf(","));
+        sql += ")";
+
+        Session session = HibernateUtil.getCurrentSession(getSessionFactory());
+        NativeQuery query = session.createNativeQuery(sql);
+        query.executeUpdate();
+    }
+
+    /**
+     * 数据库中保存书籍的图片
+     * @param paths 书籍保存的路径
+     * @param id 书籍id
+     */
+    @Override
+    public void saveImage(List<String> paths, String id) {
+        Session session = HibernateUtil.getCurrentSession(getSessionFactory());
+        Book book = session.get(Book.class,id);
+        book.getImgUrls().addAll(paths);
+        session.update(book);
     }
 }

@@ -3,6 +3,7 @@ package com.yuan.iliya.rshare.book.service;
 import com.yuan.iliya.rshare.book.entity.dto.SearchBookDto;
 import com.yuan.iliya.rshare.book.entity.po.Book;
 import com.yuan.iliya.rshare.book.entity.vo.BookRecommendVo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,7 +23,7 @@ public interface BookService {
      * 向数据库中存储指定的书籍
      * @param book 书籍
      */
-    public void save(Book book,String userId);
+    public String save(Book book,String userId);
 
     /**
      * 向数据库中更新指定书籍
@@ -71,4 +72,18 @@ public interface BookService {
      * @return 用户共享的书籍
      */
     public List<BookRecommendVo> findBooksByUserId(String userId);
+
+    /**
+     * 批量删除书籍
+     * @param bookIds 书籍的id
+     */
+    public void deleteBookByIds(String[] bookIds);
+
+    /**
+     * 上传图片保存
+     * @param images 图片
+     * @param path 要保存的路径
+     * @param id 图片对应的bookid
+     */
+    public void saveImage(MultipartFile[] images, String path, String id);
 }

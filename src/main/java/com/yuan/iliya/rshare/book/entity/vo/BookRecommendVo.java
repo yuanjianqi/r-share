@@ -16,8 +16,8 @@ public class BookRecommendVo implements Serializable {
 
     private String bookId;
     private String bookName;
-    private Double newPrice;
-    private Double oldPrice;
+    private Long newPrice;
+    private Long oldPrice;
     private String describe;
 
     private List<String> url;
@@ -46,19 +46,19 @@ public class BookRecommendVo implements Serializable {
         this.bookName = bookName;
     }
 
-    public Double getNewPrice() {
+    public Long getNewPrice() {
         return newPrice;
     }
 
-    public void setNewPrice(Double newPrice) {
+    public void setNewPrice(Long newPrice) {
         this.newPrice = newPrice;
     }
 
-    public Double getOldPrice() {
+    public Long getOldPrice() {
         return oldPrice;
     }
 
-    public void setOldPrice(Double oldPrice) {
+    public void setOldPrice(Long oldPrice) {
         this.oldPrice = oldPrice;
     }
 

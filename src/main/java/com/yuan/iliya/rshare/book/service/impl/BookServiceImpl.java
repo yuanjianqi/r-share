@@ -7,10 +7,14 @@ import com.yuan.iliya.rshare.book.entity.vo.BookRecommendVo;
 import com.yuan.iliya.rshare.book.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * All Rights Reserved, Designed By Iliya Kaslana
@@ -32,8 +36,8 @@ public class BookServiceImpl implements BookService {
      * @param book 书籍
      */
     @Override
-    public void save(Book book,String userId) {
-        bookDao.saveBookAndUser(book,userId);
+    public String save(Book book,String userId) {
+        return bookDao.saveBookAndUser(book,userId);
     }
 
     /**
@@ -87,18 +91,7 @@ public class BookServiceImpl implements BookService {
     public List<BookRecommendVo> findByPublishTime() {
 
         List<Book> books = bookDao.findByPublishTime();
-        List<BookRecommendVo> bookRecommendVos = new ArrayList<>();
-        for (Book book : books){
-            BookRecommendVo vo = new BookRecommendVo();
-            vo.setBookId(book.getId());
-            vo.setBookName(book.getName());
-            vo.setDescribe(book.getOld() + "成新");
-            vo.setNewPrice(book.getNewPrice());
-            vo.setOldPrice(book.getOldPrice());
-            vo.setUrl(book.getImgUrls());
-            bookRecommendVos.add(vo);
-        }
-        return bookRecommendVos;
+        return fillBookRecommendVo(books);
     }
 
     /**
@@ -118,35 +111,50 @@ public class BookServiceImpl implements BookService {
         if (dto.getCount() == null){
             dto.setCount(20);
         }
+
+        //查找更多推荐
+        if ("更多推荐".equals(dto.getClassify())){
+            List<Book> books = bookDao.findObjectsByIndexAndSize(dto.getIndex(),dto.getCount());
+            return fillBookRecommendVo(books);
+        }
+
+        //按照关键字查询书籍
         if (dto.getTitle() != null && dto.getClassify() == null && dto.getByNew() == null && dto.getByPrice() == null){
             List<Book> books = bookDao.findBookByName(dto);
             return fillBookRecommendVo(books);
         }
 
+        //按照类别查询书籍
         if (dto.getTitle() == null && dto.getClassify() != null && dto.getByNew() == null && dto.getByPrice() == null){
-            List<Book> books = bookDao.findBookByName(dto);
+            List<Book> books = bookDao.findBookByClassify(dto);
             return fillBookRecommendVo(books);
         }
 
+        //按照关键字和新旧程度查询书籍
         if (dto.getTitle() != null && dto.getClassify() == null && "new".equals(dto.getByNew())&& dto.getByPrice() == null){
             List<Book> books = bookDao.findBookByNameAndNew(dto);
             return fillBookRecommendVo(books);
         }
 
+        //按照关键字和价格查询书籍
         if (dto.getTitle() != null && dto.getClassify() == null && dto.getByNew() == null && "price".equals(dto.getByPrice())){
             List<Book> books = bookDao.findBookByNameAndPrice(dto);
             return fillBookRecommendVo(books);
         }
 
+        //按照类别和新旧程度查询书籍
         if (dto.getTitle() == null && dto.getClassify() != null && "new".equals(dto.getByNew())&& dto.getByPrice() == null){
             List<Book> books = bookDao.findBookByClassifyAndNew(dto);
             return fillBookRecommendVo(books);
         }
 
+        //按照类别和价格查询书籍
         if (dto.getTitle() == null && dto.getClassify() != null && dto.getByNew() == null && "price".equals(dto.getByPrice())){
             List<Book> books = bookDao.findBookByClassifyAndPrice(dto);
             return fillBookRecommendVo(books);
         }
+
+
 
         return null;
     }
@@ -183,4 +191,38 @@ public class BookServiceImpl implements BookService {
         List<BookRecommendVo> recommendVos = fillBookRecommendVo(books);
         return recommendVos;
     }
+
+    /**
+     * 批量删除书籍
+     * @param bookIds 书籍的id
+     */
+    @Override
+    public void deleteBookByIds(String[] bookIds) {
+        bookDao.deleteBookByIds(bookIds);
+    }
+
+    /**
+     * 上传图片保存
+     * @param images 图片
+     * @param path 要保存的路径
+     * @param id 图片对应的bookid
+     */
+    @Override
+    public void saveImage(MultipartFile[] images, String path, String id) {
+        List<String> paths = new ArrayList<>();
+        String filePath = null;
+        String fileName = null;
+        try {
+            for (MultipartFile file : images){
+                fileName = UUID.randomUUID().toString().replaceAll("-","") + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+                filePath = path + File.separator + fileName;
+                file.transferTo(new File(filePath));
+                paths.add("/upload/bookimage/" + fileName);
+            }
+            bookDao.saveImage(paths,id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
